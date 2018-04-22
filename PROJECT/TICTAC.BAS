@@ -1,0 +1,272 @@
+g = 1
+h = 1
+y = 88
+c = 79
+mov = 0
+trr = 0
+CLS
+LOCATE 2, 1: INPUT "Which symbol do you want (x/o) "; sym$
+LOCATE 3, 1: INPUT "Are you an (e)xpert or (a)mateur player "; play$
+start:
+CLS
+DIM b(9)
+GOSUB empty
+GOSUB draws
+4 RANDOMIZE TIMER
+star = INT(RND * 2) + 1
+IF sym$ = "x" THEN y = 88: c = 79
+IF sym$ = "o" THEN y = 79: c = 88
+IF play$ = "a" THEN tri = 1
+IF star = 1 THEN LOCATE 2, 1: PRINT "                                     ": LOCATE 3, 1: PRINT "                                        ": GOTO 2
+IF star = 2 THEN CLS : GOSUB mir ELSE GOTO 4
+2 DO
+i$ = INKEY$
+SELECT CASE i$
+CASE CHR$(0) + "H": LOCATE g, h: PRINT " ": g = g - 2: GOSUB draws
+CASE CHR$(0) + "P": LOCATE g, h: PRINT " ": g = g + 2: GOSUB draws
+CASE CHR$(0) + "K": LOCATE g, h: PRINT " ": h = h - 4: GOSUB draws
+CASE CHR$(0) + "M": LOCATE g, h: PRINT " ": h = h + 4: GOSUB draws
+CASE " ": mov = mov + 1: GOSUB help
+CASE "q": RUN "b:\project\manager1.bas"
+CASE "r": GOTO start
+END SELECT
+IF g < 11 THEN g = 11
+IF h < 35 THEN h = 35
+IF g > 15 THEN g = 15
+IF h > 43 THEN h = 43
+LOCATE g, h: PRINT CHR$(y)
+LOOP
+
+empty:
+FOR i = 1 TO 9: b(i) = 32: NEXT i
+RETURN
+
+draws:
+LOCATE 11, 35: PRINT ; CHR$(b(1)); " ³ "; CHR$(b(2)); " ³ "; CHR$(b(3))
+LOCATE 12, 34: PRINT "ÄÄÄÅÄÄÄÅÄÄÄ"
+LOCATE 13, 35: PRINT ; CHR$(b(4)); " ³ "; CHR$(b(5)); " ³ "; CHR$(b(6))
+LOCATE 14, 34: PRINT "ÄÄÄÅÄÄÄÅÄÄÄ"
+LOCATE 15, 35: PRINT ; CHR$(b(7)); " ³ "; CHR$(b(8)); " ³ "; CHR$(b(9))
+GOSUB win
+GOSUB check
+RETURN
+
+think:
+IF b(1) = c AND b(2) = c AND b(3) = 32 THEN b(3) = c: GOSUB draws: GOTO 2
+IF b(2) = c AND b(3) = c AND b(1) = 32 THEN b(1) = c: GOSUB draws: GOTO 2
+IF b(1) = c AND b(3) = c AND b(2) = 32 THEN b(2) = c: GOSUB draws: GOTO 2
+IF b(1) = c AND b(4) = c AND b(7) = 32 THEN b(7) = c: GOSUB draws: GOTO 2
+IF b(1) = c AND b(7) = c AND b(4) = 32 THEN b(4) = c: GOSUB draws: GOTO 2
+IF b(4) = c AND b(7) = c AND b(1) = 32 THEN b(1) = c: GOSUB draws: GOTO 2
+IF b(2) = c AND b(5) = c AND b(8) = 32 THEN b(8) = c: GOSUB draws: GOTO 2
+IF b(2) = c AND b(8) = c AND b(5) = 32 THEN b(5) = c: GOSUB draws: GOTO 2
+IF b(5) = c AND b(8) = c AND b(2) = 32 THEN b(2) = c: GOSUB draws: GOTO 2
+IF b(3) = c AND b(6) = c AND b(9) = 32 THEN b(9) = c: GOSUB draws: GOTO 2
+IF b(3) = c AND b(9) = c AND b(6) = 32 THEN b(6) = c: GOSUB draws: GOTO 2
+IF b(6) = c AND b(9) = c AND b(3) = 32 THEN b(3) = c: GOSUB draws: GOTO 2
+IF b(4) = c AND b(5) = c AND b(6) = 32 THEN b(6) = c: GOSUB draws: GOTO 2
+IF b(5) = c AND b(6) = c AND b(4) = 32 THEN b(4) = c: GOSUB draws: GOTO 2
+IF b(4) = c AND b(6) = c AND b(5) = 32 THEN b(5) = c: GOSUB draws: GOTO 2
+IF b(7) = c AND b(8) = c AND b(9) = 32 THEN b(9) = c: GOSUB draws: GOTO 2
+IF b(8) = c AND b(9) = c AND b(7) = 32 THEN b(7) = c: GOSUB draws: GOTO 2
+IF b(9) = c AND b(7) = c AND b(8) = 32 THEN b(8) = c: GOSUB draws: GOTO 2
+IF b(1) = c AND b(5) = c AND b(9) = 32 THEN b(9) = c: GOSUB draws: GOTO 2
+IF b(1) = c AND b(9) = c AND b(5) = 32 THEN b(5) = c: GOSUB draws: GOTO 2
+IF b(9) = c AND b(5) = c AND b(1) = 32 THEN b(1) = c: GOSUB draws: GOTO 2
+IF b(3) = c AND b(5) = c AND b(7) = 32 THEN b(7) = c: GOSUB draws: GOTO 2
+IF b(3) = c AND b(7) = c AND b(5) = 32 THEN b(5) = c: GOSUB draws: GOTO 2
+IF b(5) = c AND b(7) = c AND b(3) = 32 THEN b(3) = c: GOSUB draws: GOTO 2
+
+IF b(1) = y AND b(2) = y AND b(3) = 32 THEN b(3) = c: GOSUB draws: GOTO 2
+IF b(2) = y AND b(3) = y AND b(1) = 32 THEN b(1) = c: GOSUB draws: GOTO 2
+IF b(1) = y AND b(3) = y AND b(2) = 32 THEN b(2) = c: GOSUB draws: GOTO 2
+IF b(1) = y AND b(4) = y AND b(7) = 32 THEN b(7) = c: GOSUB draws: GOTO 2
+IF b(1) = y AND b(7) = y AND b(4) = 32 THEN b(4) = c: GOSUB draws: GOTO 2
+IF b(4) = y AND b(7) = y AND b(1) = 32 THEN b(1) = c: GOSUB draws: GOTO 2
+IF b(2) = y AND b(5) = y AND b(8) = 32 THEN b(8) = c: GOSUB draws: GOTO 2
+IF b(2) = y AND b(8) = y AND b(5) = 32 THEN b(5) = c: GOSUB draws: GOTO 2
+IF b(5) = y AND b(8) = y AND b(2) = 32 THEN b(2) = c: GOSUB draws: GOTO 2
+IF b(3) = y AND b(6) = y AND b(9) = 32 THEN b(9) = c: GOSUB draws: GOTO 2
+IF b(3) = y AND b(9) = y AND b(6) = 32 THEN b(6) = c: GOSUB draws: GOTO 2
+IF b(6) = y AND b(9) = y AND b(3) = 32 THEN b(3) = c: GOSUB draws: GOTO 2
+IF b(4) = y AND b(5) = y AND b(6) = 32 THEN b(6) = c: GOSUB draws: GOTO 2
+IF b(5) = y AND b(6) = y AND b(4) = 32 THEN b(4) = c: GOSUB draws: GOTO 2
+IF b(4) = y AND b(6) = y AND b(5) = 32 THEN b(5) = c: GOSUB draws: GOTO 2
+IF b(7) = y AND b(8) = y AND b(9) = 32 THEN b(9) = c: GOSUB draws: GOTO 2
+IF b(8) = y AND b(9) = y AND b(7) = 32 THEN b(7) = c: GOSUB draws: GOTO 2
+IF b(9) = y AND b(7) = y AND b(8) = 32 THEN b(8) = c: GOSUB draws: GOTO 2
+IF b(1) = y AND b(5) = y AND b(9) = 32 THEN b(9) = c: GOSUB draws: GOTO 2
+IF b(1) = y AND b(9) = y AND b(5) = 32 THEN b(5) = c: GOSUB draws: GOTO 2
+IF b(9) = y AND b(5) = y AND b(1) = 32 THEN b(1) = c: GOSUB draws: GOTO 2
+IF b(3) = y AND b(5) = y AND b(7) = 32 THEN b(7) = c: GOSUB draws: GOTO 2
+IF b(3) = y AND b(7) = y AND b(5) = 32 THEN b(5) = c: GOSUB draws: GOTO 2
+IF b(5) = y AND b(7) = y AND b(3) = 32 THEN b(3) = c: GOSUB draws: GOTO 2
+
+'counter tactics
+IF b(1) = y AND b(5) = 32 AND b(4) = 32 AND b(6) = 32 THEN b(5) = c: GOSUB draws: GOTO 2
+IF b(1) = y AND b(5) = c AND b(4) = 32 AND b(6) = 32 AND b(9) = y THEN b(4) = c: GOSUB draws: GOTO 2
+IF b(3) = y AND b(5) = 32 AND b(4) = 32 AND b(6) = 32 THEN b(5) = c: GOSUB draws: GOTO 2
+IF b(3) = y AND b(5) = c AND b(4) = 32 AND b(6) = 32 AND b(7) = y THEN b(6) = c: GOSUB draws: GOTO 2
+IF b(7) = y AND b(5) = 32 AND b(4) = 32 AND b(6) = 32 THEN b(5) = c: GOSUB draws: GOTO 2
+IF b(7) = y AND b(5) = c AND b(4) = 32 AND b(6) = 32 AND b(3) = y THEN b(4) = c: GOSUB draws: GOTO 2
+IF b(9) = y AND b(5) = 32 AND b(4) = 32 AND b(6) = 32 THEN b(5) = c: GOSUB draws: GOTO 2
+IF b(9) = y AND b(5) = c AND b(4) = 32 AND b(6) = 32 AND b(1) = y THEN b(6) = c: GOSUB draws: GOTO 2
+
+IF b(7) = y AND b(6) = y AND b(3) = 32 AND b(8) = 32 THEN b(8) = c: GOSUB draws: GOTO 2
+IF b(8) = y AND b(6) = y AND b(9) = 32 AND b(3) = 32 AND b(7) = 32 THEN b(9) = c: GOSUB draws: GOTO 2
+IF b(4) = y AND b(8) = y AND b(7) = 32 AND b(1) = 32 AND b(9) = 32 THEN b(7) = c: GOSUB draws: GOTO 2
+
+IF b(5) = 32 THEN b(5) = c: GOSUB draws: GOTO 2
+
+IF b(3) = y AND b(8) = y AND b(6) = 32 AND b(7) = 32 AND b(9) = 32 THEN b(9) = c: GOSUB draws: GOTO 2
+IF b(1) = y AND b(8) = y AND b(4) = 32 AND b(7) = 32 AND b(9) = 32 THEN b(7) = c: GOSUB draws: GOTO 2
+IF b(1) = y AND b(6) = y AND b(3) = 32 AND b(2) = 32 AND b(9) = 32 THEN b(3) = c: GOSUB draws: GOTO 2
+
+IF tri = 1 THEN GOSUB triky
+GOSUB tricks
+
+IF b(1) = 32 THEN b(1) = c: GOSUB draws: GOTO 2
+IF b(3) = 32 THEN b(3) = c: GOSUB draws: GOTO 2
+IF b(9) = 32 THEN b(9) = c: GOSUB draws: GOTO 2
+IF b(7) = 32 THEN b(7) = c: GOSUB draws: GOTO 2
+IF b(2) = 32 THEN b(2) = c: GOSUB draws: GOTO 2
+IF b(4) = 32 THEN b(4) = c: GOSUB draws: GOTO 2
+IF b(6) = 32 THEN b(6) = c: GOSUB draws: GOTO 2
+IF b(8) = 32 THEN b(8) = c: GOSUB draws: GOTO 2
+RETURN
+
+mir:
+GOSUB draws
+GOSUB think
+RETURN
+
+youwin:
+LOCATE 19, 32: PRINT "*** YOU WIN ***"
+PLAY "mb g5c10c10d6c6 p5 e6f6"
+GOTO playa
+RUN "b:\project\manager1.bas"
+
+iwin:
+LOCATE 19, 32: PRINT "**** I WIN ****"
+PLAY "mb g5c10c10d6c6 p5 e6f6"
+GOTO playa
+RUN "b:\project\manager1.bas"
+
+nowin:
+LOCATE 19, 31: PRINT "*** ITS A TIE ***"
+PLAY "mb g5c10c10d6c6 p5 e6f6"
+GOTO playa
+RUN "b:\project\manager1.bas"
+
+win:
+IF b(1) = y AND b(2) = y AND b(3) = y THEN GOTO youwin
+IF b(4) = y AND b(5) = y AND b(6) = y THEN GOTO youwin
+IF b(7) = y AND b(8) = y AND b(9) = y THEN GOTO youwin
+IF b(1) = y AND b(4) = y AND b(7) = y THEN GOTO youwin
+IF b(2) = y AND b(5) = y AND b(8) = y THEN GOTO youwin
+IF b(3) = y AND b(6) = y AND b(9) = y THEN GOTO youwin
+IF b(1) = y AND b(5) = y AND b(9) = y THEN GOTO youwin
+IF b(3) = y AND b(5) = y AND b(7) = y THEN GOTO youwin
+IF b(1) = c AND b(2) = c AND b(3) = c THEN GOTO iwin
+IF b(4) = c AND b(5) = c AND b(6) = c THEN GOTO iwin
+IF b(7) = c AND b(8) = c AND b(9) = c THEN GOTO iwin
+IF b(1) = c AND b(4) = c AND b(7) = c THEN GOTO iwin
+IF b(2) = c AND b(5) = c AND b(8) = c THEN GOTO iwin
+IF b(3) = c AND b(6) = c AND b(9) = c THEN GOTO iwin
+IF b(1) = c AND b(5) = c AND b(9) = c THEN GOTO iwin
+IF b(3) = c AND b(5) = c AND b(7) = c THEN GOTO iwin
+RETURN
+
+check:
+FOR i = 1 TO 9: IF b(i) = y OR b(i) = c THEN GOTO 5 ELSE RETURN
+5 NEXT i
+GOTO nowin
+
+help:
+IF g = 11 AND h = 35 THEN IF b(1) <> 32 THEN GOTO 2 ELSE b(1) = y: GOSUB mir
+IF g = 11 AND h = 39 THEN IF b(2) <> 32 THEN GOTO 2 ELSE b(2) = y: GOSUB mir
+IF g = 11 AND h = 43 THEN IF b(3) <> 32 THEN GOTO 2 ELSE b(3) = y: GOSUB mir
+IF g = 13 AND h = 35 THEN IF b(4) <> 32 THEN GOTO 2 ELSE b(4) = y: GOSUB mir
+IF g = 13 AND h = 39 THEN IF b(5) <> 32 THEN GOTO 2 ELSE b(5) = y: GOSUB mir
+IF g = 13 AND h = 43 THEN IF b(6) <> 32 THEN GOTO 2 ELSE b(6) = y: GOSUB mir
+IF g = 15 AND h = 35 THEN IF b(7) <> 32 THEN GOTO 2 ELSE b(7) = y: GOSUB mir
+IF g = 15 AND h = 39 THEN IF b(8) <> 32 THEN GOTO 2 ELSE b(8) = y: GOSUB mir
+IF g = 15 AND h = 43 THEN IF b(9) <> 32 THEN GOTO 2 ELSE b(9) = y: GOSUB mir
+RETURN
+
+triky:
+IF b(1) = 32 AND b(3) = 32 AND b(7) = 32 AND b(9) = 32 THEN b(1) = c: GOSUB draws: GOTO 2
+IF b(1) = y AND b(3) = 32 AND b(7) = 32 AND b(9) = 32 THEN b(3) = c: GOSUB draws: GOTO 2
+IF b(9) = 32 AND b(4) = 32 THEN b(9) = c: GOSUB draws: GOTO 2
+IF b(1) = c AND b(9) = 32 AND b(7) = 32 THEN b(9) = c: GOSUB draws: GOTO 2
+IF b(1) = c AND b(9) = y AND b(3) = 32 THEN b(3) = c: GOSUB draws: GOTO 2
+IF b(1) = c AND b(3) = c AND b(7) = 32 AND b(4) = 32 THEN b(7) = c: GOSUB draws: GOTO 2
+IF b(1) = c AND b(9) = c AND b(7) = 32 AND b(4) = 32 AND b(8) = 32 THEN b(7) = c: GOSUB draws: GOTO 2
+RETURN
+
+playa:
+LOCATE 21, 25: INPUT "Do you wish to play again (y/n)"; aga$
+IF aga$ = "y" THEN GOTO start
+IF aga$ <> "n" THEN GOTO playa
+RUN "b:\project\manager1.bas"
+
+tricks:
+'IF mov = 1 AND b(1) = y THEN trr = 1
+'IF mov = 1 AND b(3) = y THEN trr = 1
+'IF mov = 1 AND b(7) = y THEN trr = 1
+'IF mov = 1 AND b(9) = y THEN trr = 1
+'IF trr = 1 THEN GOTO tric
+
+IF b(1) = 32 AND b(5) <> y AND b(7) <> y AND b(4) = 32 AND b(3) = 32 THEN b(1) = c: GOSUB draws: GOTO 2
+IF b(1) = 32 AND b(5) <> y AND b(7) <> y AND b(4) = 32 AND b(9) = 32 THEN b(1) = c: GOSUB draws: GOTO 2
+IF b(1) = 32 AND b(5) <> y AND b(7) <> y AND b(3) = 32 AND b(9) = 32 THEN b(1) = c: GOSUB draws: GOTO 2
+IF b(1) = c AND b(5) = 32 AND b(7) <> y AND b(4) = 32 AND b(3) = 32 THEN b(5) = c: GOSUB draws: GOTO 2
+IF b(1) = c AND b(5) = 32 AND b(7) <> y AND b(4) = 32 AND b(9) = 32 THEN b(5) = c: GOSUB draws: GOTO 2
+IF b(1) = c AND b(5) = 32 AND b(7) <> y AND b(3) = 32 AND b(9) = 32 THEN b(5) = c: GOSUB draws: GOTO 2
+IF b(1) = c AND b(5) = c AND b(7) = 32 AND b(4) = 32 AND b(3) = 32 THEN b(7) = c: GOSUB draws: GOTO 2
+IF b(1) = c AND b(5) = c AND b(7) = 32 AND b(4) = 32 AND b(9) = 32 THEN b(7) = c: GOSUB draws: GOTO 2
+IF b(1) = c AND b(5) = c AND b(7) = 32 AND b(3) = 32 AND b(9) = 32 THEN b(7) = c: GOSUB draws: GOTO 2
+IF b(3) = 32 AND b(5) <> y AND b(9) <> y AND b(6) = 32 AND b(1) = 32 THEN b(3) = c: GOSUB draws: GOTO 2
+IF b(3) = 32 AND b(5) <> y AND b(9) <> y AND b(6) = 32 AND b(7) = 32 THEN b(3) = c: GOSUB draws: GOTO 2
+IF b(3) = 32 AND b(5) <> y AND b(9) <> y AND b(1) = 32 AND b(7) = 32 THEN b(3) = c: GOSUB draws: GOTO 2
+IF b(3) = c AND b(5) = 32 AND b(9) <> y AND b(6) = 32 AND b(1) = 32 THEN b(5) = c: GOSUB draws: GOTO 2
+IF b(3) = c AND b(5) = 32 AND b(9) <> y AND b(6) = 32 AND b(7) = 32 THEN b(5) = c: GOSUB draws: GOTO 2
+IF b(3) = c AND b(5) = 32 AND b(9) <> y AND b(1) = 32 AND b(7) = 32 THEN b(5) = c: GOSUB draws: GOTO 2
+IF b(3) = c AND b(5) = c AND b(9) = 32 AND b(6) = 32 AND b(1) = 32 THEN b(9) = c: GOSUB draws: GOTO 2
+IF b(3) = c AND b(5) = c AND b(9) = 32 AND b(6) = 32 AND b(7) = 32 THEN b(9) = c: GOSUB draws: GOTO 2
+IF b(3) = c AND b(5) = c AND b(9) = 32 AND b(1) = 32 AND b(7) = 32 THEN b(9) = c: GOSUB draws: GOTO 2
+IF b(1) = 32 AND b(5) <> y AND b(3) <> y AND b(2) = 32 AND b(7) = 32 THEN b(1) = c: GOSUB draws: GOTO 2
+IF b(1) = 32 AND b(5) <> y AND b(3) <> y AND b(2) = 32 AND b(9) = 32 THEN b(1) = c: GOSUB draws: GOTO 2
+IF b(1) = 32 AND b(5) <> y AND b(3) <> y AND b(9) = 32 AND b(7) = 32 THEN b(1) = c: GOSUB draws: GOTO 2
+IF b(1) = c AND b(5) = 32 AND b(3) <> y AND b(2) = 32 AND b(7) = 32 THEN b(5) = c: GOSUB draws: GOTO 2
+IF b(1) = c AND b(5) = 32 AND b(3) <> y AND b(2) = 32 AND b(9) = 32 THEN b(5) = c: GOSUB draws: GOTO 2
+IF b(1) = c AND b(5) = 32 AND b(3) <> y AND b(9) = 32 AND b(7) = 32 THEN b(5) = c: GOSUB draws: GOTO 2
+IF b(1) = c AND b(5) = c AND b(3) = 32 AND b(2) = 32 AND b(7) = 32 THEN b(3) = c: GOSUB draws: GOTO 2
+IF b(1) = c AND b(5) = c AND b(3) = 32 AND b(2) = 32 AND b(9) = 32 THEN b(3) = c: GOSUB draws: GOTO 2
+IF b(1) = c AND b(5) = c AND b(3) = 32 AND b(9) = 32 AND b(7) = 32 THEN b(3) = c: GOSUB draws: GOTO 2
+
+tric:
+IF b(7) = 32 AND b(5) <> y AND b(9) <> y AND b(8) = 32 AND b(1) = 32 THEN b(7) = c: GOSUB draws: GOTO 2
+IF b(7) = 32 AND b(5) <> y AND b(9) <> y AND b(8) = 32 AND b(3) = 32 THEN b(7) = c: GOSUB draws: GOTO 2
+IF b(7) = 32 AND b(5) <> y AND b(9) <> y AND b(3) = 32 AND b(1) = 32 THEN b(7) = c: GOSUB draws: GOTO 2
+IF b(7) = c AND b(5) = 32 AND b(9) <> y AND b(8) = 32 AND b(1) = 32 THEN b(5) = c: GOSUB draws: GOTO 2
+IF b(7) = c AND b(5) = 32 AND b(9) <> y AND b(8) = 32 AND b(3) = 32 THEN b(5) = c: GOSUB draws: GOTO 2
+IF b(7) = c AND b(5) = 32 AND b(9) <> y AND b(3) = 32 AND b(1) = 32 THEN b(5) = c: GOSUB draws: GOTO 2
+IF b(7) = c AND b(5) = c AND b(9) = 32 AND b(8) = 32 AND b(1) = 32 THEN b(9) = c: GOSUB draws: GOTO 2
+IF b(7) = c AND b(5) = c AND b(9) = 32 AND b(8) = 32 AND b(3) = 32 THEN b(9) = c: GOSUB draws: GOTO 2
+IF b(7) = c AND b(5) = c AND b(9) = 32 AND b(3) = 32 AND b(1) = 32 THEN b(9) = c: GOSUB draws: GOTO 2
+
+IF b(7) = 32 AND b(8) = 32 AND b(9) <> y AND b(6) <> y AND b(3) = 32 THEN b(7) = c: GOSUB draws: GOTO 2
+IF b(7) = c AND b(8) = 32 AND b(9) <> y AND b(6) = 32 AND b(3) = 32 THEN b(6) = c: GOSUB draws: GOTO 2
+IF b(7) = c AND b(8) = 32 AND b(9) = 32 AND b(6) = c AND b(3) = 32 THEN b(9) = c: GOSUB draws: GOTO 2
+IF b(7) = 32 AND b(8) = 32 AND b(9) <> y AND b(6) <> y AND b(3) = 32 THEN b(8) = c: GOSUB draws: GOTO 2
+IF b(7) = 32 AND b(8) = c AND b(9) <> y AND b(6) = 32 AND b(3) = 32 THEN b(6) = c: GOSUB draws: GOTO 2
+IF b(7) = 32 AND b(8) = c AND b(9) = 32 AND b(6) = c AND b(3) = 32 THEN b(9) = c: GOSUB draws: GOTO 2
+IF b(7) = 32 AND b(4) <> y AND b(1) <> y AND b(2) = 32 AND b(3) = 32 THEN b(3) = c: GOSUB draws: GOTO 2
+IF b(7) = 32 AND b(4) = 32 AND b(1) <> y AND b(2) = 32 AND b(3) = c THEN b(4) = c: GOSUB draws: GOTO 2
+IF b(7) = 32 AND b(4) = c AND b(1) = 32 AND b(2) = 32 AND b(3) = c THEN b(1) = c: GOSUB draws: GOTO 2
+IF b(7) = 32 AND b(4) <> y AND b(1) <> y AND b(2) = 32 AND b(3) = 32 THEN b(2) = c: GOSUB draws: GOTO 2
+IF b(7) = 32 AND b(4) = 32 AND b(1) <> y AND b(2) = c AND b(3) = 32 THEN b(4) = c: GOSUB draws: GOTO 2
+IF b(7) = 32 AND b(4) = c AND b(1) = 32 AND b(2) = c AND b(3) = 32 THEN b(1) = c: GOSUB draws: GOTO 2
+RETURN
+
